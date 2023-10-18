@@ -1,0 +1,204 @@
+{
+	"info": {
+		"_postman_id": "f1c0da64-57b4-4829-a3f7-6efeb1043642",
+		"name": "GitHub_issues",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26144425"
+	},
+	"item": [
+		{
+			"name": "Create an issue",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var key = \"issue_number\"\r",
+							"var value = pm.response.json().number\r",
+							"\r",
+							"pm.collectionVariables.set(key, value)\r",
+							"\r",
+							"pm.test(\"The issue has been created\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"title\":\"Issue 1\",\"body\":\"Something went wrong\",\"assignees\":[\"kenstavichute\"],\"labels\":[\"bug\"]}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}repos/kenstavichute/test/issues",
+					"host": [
+						"{{baseUrl}}repos"
+					],
+					"path": [
+						"kenstavichute",
+						"test",
+						"issues"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List of issues",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"The list has been received\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}repos/kenstavichute/test/issues",
+					"host": [
+						"{{baseUrl}}repos"
+					],
+					"path": [
+						"kenstavichute",
+						"test",
+						"issues"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update issues",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"The title of issue has been updated\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"title\":\"Issue 2\"}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}repos/kenstavichute/test/issues/{{issue_number}}",
+					"host": [
+						"{{baseUrl}}repos"
+					],
+					"path": [
+						"kenstavichute",
+						"test",
+						"issues",
+						"{{issue_number}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Close issues",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"The issue has been closed\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"state\":\"closed\"}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}repos/kenstavichute/test/issues/{{issue_number}}",
+					"host": [
+						"{{baseUrl}}repos"
+					],
+					"path": [
+						"kenstavichute",
+						"test",
+						"issues",
+						"{{issue_number}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://api.github.com/",
+			"type": "string"
+		},
+		{
+			"key": "issue_number",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
